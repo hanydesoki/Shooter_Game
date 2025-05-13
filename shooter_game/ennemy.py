@@ -10,6 +10,8 @@ class Ennemy(Entity):
     speed = 1
     default_hp = 2
 
+    collision_damage = 1
+
     def __init__(self, player, x, y, hp = 1, weapon = None):
         super().__init__(x, y, hp, weapon)
         self.surf.fill("red")
@@ -40,6 +42,8 @@ class Boss(Ennemy):
     name = "Boss"
 
     default_hp = 20
+
+    collision_damage = 3
 
     def __init__(self, player, x, y, hp=1, weapon=None):
         super().__init__(player, x, y, hp, weapon)

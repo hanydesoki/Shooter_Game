@@ -102,9 +102,9 @@ class Layout(ScreenEvents):
 
         for ennemy in self.ennemies[:]:
 
-            if ennemy.rect.colliderect(self.player.rect):
+            if ennemy.rect.colliderect(self.player.rect) and self.player.recovery_frame == 0:
                 self.ennemies.remove(ennemy)
-                self.player.get_hit(1)
+                self.player.get_hit(ennemy.collision_damage)
                 continue
 
             if ennemy.hp <= 0:
