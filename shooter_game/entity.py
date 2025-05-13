@@ -14,6 +14,8 @@ class Entity(ScreenEvents):
         ColorPoint([0, 255, 0], 1)
     )
 
+    max_recovery_frame = 0
+
     def __init__(self, x: int, y: int, hp: int = 1, weapon: type = None):
         super().__init__()
 
@@ -28,6 +30,8 @@ class Entity(ScreenEvents):
 
         
         self.weapon = weapon(self) if isinstance(weapon, type) else weapon
+
+        self.recovery_frame = 0
 
     def draw(self) -> None:
         self.screen.blit(self.surf, self.rect)
@@ -51,7 +55,9 @@ class Entity(ScreenEvents):
         self.screen.blit(background_surf, background_rect)
 
     def get_hit(self, damage: int = 1) -> None:
-        self.hp = max(self.hp - damage, 0)
+        if self.recovery_frame <= 0:
+            self.hp = max(self.hp - damage, 0)
+            self.recovery_frame = self.max_recovery_frame
 
     def fire(self, direction: tuple[float, float]) -> None:
         if self.weapon is not None and direction != (0, 0):
@@ -60,6 +66,8 @@ class Entity(ScreenEvents):
     def update(self) -> None:
         if self.weapon is not None:
             self.weapon.update()
+
+        self.recovery_frame = max(self.recovery_frame - 1, 0)
         
     def set_weapon(self, weapon) -> None:
         self.weapon = weapon

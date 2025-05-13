@@ -1,16 +1,20 @@
+import pygame
+
 from .entity import Entity
 from .utils import get_direction
 
 
 class Ennemy(Entity):
 
-    def __init__(self, player, x, y, pv = 1, weapon = None):
-        super().__init__(x, y, pv, weapon)
+    name = "Ennemy"
+    speed = 1
+    default_hp = 2
+
+    def __init__(self, player, x, y, hp = 1, weapon = None):
+        super().__init__(x, y, hp, weapon)
         self.surf.fill("red")
 
         self.player = player
-
-        self.speed = 1
 
     def move_to_player(self) -> None:
         player_direction = get_direction((self.center), (self.player.center))
@@ -31,3 +35,26 @@ class Ennemy(Entity):
         self.move_to_player()
 
 
+
+class Boss(Ennemy):
+    name = "Boss"
+
+    default_hp = 20
+
+    def __init__(self, player, x, y, hp=1, weapon=None):
+        super().__init__(player, x, y, hp, weapon)
+
+        self.surf = pygame.Surface((50, 50))
+        self.rect = self.surf.get_rect(center=(x, y))
+
+        self.surf.fill([180, 0, 0])
+
+
+
+
+        
+
+
+
+
+    

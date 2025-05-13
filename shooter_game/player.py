@@ -8,12 +8,15 @@ from .utils import get_direction
 
 class Player(Entity):
 
-    def __init__(self, x, y, pv = 1, weapon = None):
-        super().__init__(x, y, pv, weapon)
+    speed = 2
+
+    max_recovery_frame = 60
+
+    def __init__(self, x, y, hp = 1, weapon = None):
+        super().__init__(x, y, hp, weapon)
 
         self.surf.fill("blue")
-
-        self.speed = 2
+  
 
     def manage_inputs(self) -> None:
 

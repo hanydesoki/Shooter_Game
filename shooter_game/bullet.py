@@ -24,6 +24,8 @@ class Bullet(ScreenEvents):
 
         self.hp = hp
 
+        self.hitted_targets = []
+
         self.add_instance()
 
     def update_position(self) -> None:
