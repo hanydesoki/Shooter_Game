@@ -11,7 +11,7 @@ class PickUp(ScreenEvents):
         super().__init__()
 
         self.surf = pygame.Surface((40, 30))
-        self.surf.fill("white")
+        self.surf.fill("lightgray")
 
         self.rect = self.surf.get_rect(center=(x, y))
 

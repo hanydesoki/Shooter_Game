@@ -1,3 +1,5 @@
+import math
+
 # import pygame
 
 # from pg_utils import ScreenEvents
@@ -27,7 +29,7 @@ class Weapon:
             self.spawn_bullets(direction)
             self.frame_count = self.fire_rate
 
-    def spawn_bullets(self, direction: tuple[float, float]) -> Bullet:
+    def spawn_bullets(self, direction: tuple[float, float]) -> list[Bullet]:
         bullet = Bullet(
             self.owner,
             self.owner.x,
@@ -38,7 +40,7 @@ class Weapon:
             self.hp
         )
 
-        return bullet
+        return [bullet]
 
     def update(self) -> None:
         self.frame_count = max(self.frame_count - 1, 0)
@@ -71,6 +73,53 @@ class AssaultRifle(Weapon):
     bullet_hp = 1
 
     name = "Assault rifle"
+
+
+class Shotgun(Weapon):
+    speed = 4
+    mag_size = 12
+    fire_rate = 120
+    damage = 2
+    bullet_hp = 1
+
+    name = "Shotgun"
+
+    def spawn_bullets(self, direction: tuple[float, float]) -> list[Bullet]:
+
+        spread_angle = math.radians(20) # Deg
+
+        main_angle = math.atan2(direction[1], direction[0])
+
+        start_angle = main_angle - spread_angle / 2
+
+        number_shots = 3
+
+        bullets = []
+
+        for i in range(number_shots):
+            
+            angle = start_angle + i * spread_angle / number_shots
+
+            dirx = math.cos(angle)
+            diry = math.sin(angle)
+
+            bullet = Bullet(
+                self.owner,
+                self.owner.x,
+                self.owner.y,
+                dirx * self.speed,
+                diry * self.speed,
+                self.damage,
+                self.hp
+            )
+
+            bullets.append(bullet)
+
+        
+
+        return bullets
+
+
 
 
 

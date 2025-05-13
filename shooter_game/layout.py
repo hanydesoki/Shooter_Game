@@ -17,7 +17,8 @@ class Layout(ScreenEvents):
     weapons = {
         Pistol: 3,
         Magnum: 2,
-        AssaultRifle: 1
+        Shotgun: 2,
+        AssaultRifle: 1,
     }
 
     def __init__(self):
