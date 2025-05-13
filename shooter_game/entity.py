@@ -16,6 +16,8 @@ class Entity(ScreenEvents):
 
     max_recovery_frame = 0
 
+    collision_damage = 1
+
     def __init__(self, x: int, y: int, hp: int = 1, weapon: type = None):
         super().__init__()
 
@@ -40,7 +42,7 @@ class Entity(ScreenEvents):
     def draw_hp(self) -> None:
         background_surf = pygame.Surface((40, 5))
         background_rect = background_surf.get_rect(midbottom=(self.rect.centerx, self.rect.top - 5))
-        hp_ratio = self.hp / self.max_hp
+        hp_ratio = self.hp_ratio
         ratio_width = int((background_surf.get_width() - 2) * hp_ratio)
 
         background_surf.fill("white")
@@ -93,6 +95,10 @@ class Entity(ScreenEvents):
     @property
     def center(self) -> tuple[int, int]:
         return self._x, self._y
+    
+    @property
+    def hp_ratio(self) -> float:
+        return self.hp / self.max_hp
 
     
     

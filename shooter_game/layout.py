@@ -103,8 +103,9 @@ class Layout(ScreenEvents):
         for ennemy in self.ennemies[:]:
 
             if ennemy.rect.colliderect(self.player.rect) and self.player.recovery_frame == 0:
-                self.ennemies.remove(ennemy)
+                # self.ennemies.remove(ennemy)
                 self.player.get_hit(ennemy.collision_damage)
+                ennemy.get_hit(self.player.collision_damage)
                 continue
 
             if ennemy.hp <= 0:
@@ -119,7 +120,7 @@ class Layout(ScreenEvents):
 
         # Draw boss lifebar
         for i, boss in enumerate(bosses):
-            background_surf = pygame.Surface((int(self.screen_width * 0.8), 5))
+            background_surf = pygame.Surface((int(self.screen_width * 0.8), 10))
             background_rect = background_surf.get_rect(
                 midbottom=(
                     self.screen_center[0], 
@@ -166,22 +167,46 @@ class Layout(ScreenEvents):
             pickup.draw()
 
     def draw_ui(self) -> None:
-        if self.player.weapon is None:
-            return
+        # Weapon mag
+        if self.player.weapon is not None:  
+            weapon: Weapon = self.player.weapon
+            text = f"{weapon.name}: {weapon.bullets} / {weapon.mag_size}"
+
+            text_surf = self.font.render(text, True, "white" if weapon.bullets else "red")
+
+            text_rect = text_surf.get_rect(topleft=(20, 20))
+            self.screen.blit(text_surf, text_rect)
+
+        # Player health
+        background_surf = pygame.Surface((int(self.screen_width * 0.5), 10))
+        background_rect = background_surf.get_rect(
+            midright=(
+                self.screen_height - 20, 
+                30
+            )
+        )
+        hp_ratio = self.player.hp_ratio
+        ratio_width = int((background_surf.get_width() - 2) * hp_ratio)
+
+        background_surf.fill("white")
+
+        color = Boss.hp_gradient(hp_ratio)
+
+        ratio_surf = pygame.Surface((ratio_width, background_surf.get_height() - 2))
+        ratio_surf.fill(color)
+
+        background_surf.blit(ratio_surf, (1, 1))
+
+
+        self.screen.blit(background_surf, background_rect)
         
-        weapon: Weapon = self.player.weapon
-        text = f"{weapon.name}: {weapon.bullets} / {weapon.mag_size}"
 
-        text_surf = self.font.render(text, True, "white" if weapon.bullets else "red")
 
-        text_rect = text_surf.get_rect(topleft=(20, 20))
-
-        self.screen.blit(text_surf, text_rect)
 
 
     def generate_random_outbound_spawn_coord(self) -> tuple[int, int]:
-        x = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_width + 100)
-        y = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_height + 100)
+        x = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_width)
+        y = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_height)
 
         return x, y
     

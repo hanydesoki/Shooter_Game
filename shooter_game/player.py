@@ -12,6 +12,8 @@ class Player(Entity):
 
     max_recovery_frame = 60
 
+    collision_damage = 1
+
     def __init__(self, x, y, hp = 1, weapon = None):
         super().__init__(x, y, hp, weapon)
 
