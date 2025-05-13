@@ -10,7 +10,7 @@ class Player(Entity):
 
     speed = 2
 
-    max_recovery_frame = 60
+    max_recovery_frame = 120
 
     collision_damage = 1
 
@@ -38,6 +38,13 @@ class Player(Entity):
             x, y = get_direction(self.center, pygame.mouse.get_pos())
 
             self.fire((x, y))
+
+    def draw(self):
+        # Player blink on recovery frame
+        if (self.recovery_frame // 10) % 2 == 0:
+            self.screen.blit(self.surf, self.rect)
+
+        self.draw_hp()
 
     def update(self) -> None:
         super().update()

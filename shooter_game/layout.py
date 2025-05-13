@@ -206,8 +206,16 @@ class Layout(ScreenEvents):
 
 
     def generate_random_outbound_spawn_coord(self) -> tuple[int, int]:
-        x = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_width)
-        y = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_height)
+        # x = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_width)
+        # y = random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_height)
+
+        x = random.randint(-100, self.screen_width + 100)
+
+        y = (
+            random.randint(0, 100) + (-100 if random.random() < 0.5 else self.screen_height)
+            if 0 < x < self.screen_width
+            else random.randint(-100, self.screen_height + 100)
+        )
 
         return x, y
     
