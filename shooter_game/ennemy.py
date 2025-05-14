@@ -12,6 +12,8 @@ class Ennemy(Entity):
 
     collision_damage = 1
 
+    score = 1
+
     def __init__(self, player, x, y, hp = 1, weapon = None):
         super().__init__(x, y, hp, weapon)
         self.surf.fill("red")
@@ -44,6 +46,8 @@ class Boss(Ennemy):
     default_hp = 20
 
     collision_damage = 3
+
+    score = 5
 
     def __init__(self, player, x, y, hp=1, weapon=None):
         super().__init__(player, x, y, hp, weapon)

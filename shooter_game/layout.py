@@ -33,7 +33,23 @@ class Layout(ScreenEvents):
         self.ennemies: list[Ennemy] = []
         self.pickups: list[PickUp] = []
 
+        self.score = 0
+        self.high_score = 0
+
         self.font = pygame.font.SysFont("Arial", 20)
+
+    def game_reset(self) -> None:
+
+        self.player: Player = Player(
+            *self.screen_center,
+            10,
+            Pistol
+        )
+        self.ennemies: list[Ennemy] = []
+        self.pickups: list[PickUp] = []
+
+        self.score = 0
+        # self.high_score = 0
 
     def draw_background(self) -> None:
         pygame.draw.rect(
@@ -111,6 +127,8 @@ class Layout(ScreenEvents):
 
             if ennemy.hp <= 0:
                 self.ennemies.remove(ennemy)
+                self.add_score(ennemy.score)
+                print(f"Score: {self.score}   High Score: {self.high_score}")
                 continue
 
             if isinstance(ennemy, Boss):
@@ -166,6 +184,10 @@ class Layout(ScreenEvents):
                 continue
 
             pickup.draw()
+
+    def add_score(self, score_amount: int) -> int:
+        self.score += score_amount
+        self.high_score = max(self.score, self.high_score)
 
     def draw_ui(self) -> None:
         # Weapon mag
